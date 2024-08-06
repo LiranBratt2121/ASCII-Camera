@@ -1,28 +1,21 @@
 cmake_minimum_required(VERSION 3.10)
+set(CMAKE_BUILD_TYPE Debug) # or Release
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_TOOLCHAIN_FILE ${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake)
+
+
 project(AsciiCamera)
 
-# Set the C++ standard
-set(CMAKE_CXX_STANDARD 17)
-
-# Specify the path to the OpenCV installation
-set(OpenCV_DIR "C:/opencv/build/x64/vc16/lib")
-
 # Find OpenCV package
-find_package(OpenCV REQUIRED)
-set(CMAKE_BUILD_TYPE Debug) # or Release
+find_package(OpenCV CONFIG REQUIRED)
 
-if(OpenCV_FOUND)
-    # Add the executable
-    add_executable(AsciiCamera cpp/main.cpp)
+# Add the executable
+add_executable(AsciiCamera cpp/main.cpp)
 
-    # Include OpenCV directories
-    target_include_directories(AsciiCamera PRIVATE ${OpenCV_INCLUDE_DIRS})
-    
-    # Include your project's include directory
-    target_include_directories(AsciiCamera PRIVATE ${CMAKE_SOURCE_DIR}/)
+# Link OpenCV libraries
+target_link_libraries(AsciiCamera PRIVATE opencv_ml opencv_core opencv_flann opencv_videoio opencv_highgui)
 
-    # Link OpenCV libraries
-    target_link_libraries(AsciiCamera PRIVATE ${OpenCV_LIBS})
-else()
-    message(FATAL_ERROR "OpenCV not found")
-endif()
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
