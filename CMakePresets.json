@@ -1,0 +1,30 @@
+{
+    "version": 4,
+    "include": [
+        "build\\generators\\CMakePresets.json"
+    ],
+    "buildPresets": [
+        {
+            "name": "Release",
+            "configurePreset": "default",
+            "configuration": "Release"
+
+        },
+        {
+            "name": "Debug",
+            "configurePreset": "default",
+            "configuration": "Debug"
+        }
+    ],
+    "configurePresets": [
+        {
+        "name": "default",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/build",
+        "cacheVariables": {
+            "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+            }
+        
+        }
+    ]
+}
